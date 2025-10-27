@@ -1,0 +1,79 @@
+# SCLI Configuration File
+# This is an example configuration. Copy to ~/.scli/config.yaml and customize.
+
+# Default model to use (must match a key in 'models' section)
+default_model: null
+
+# Model configurations
+# Add your models here after downloading them
+models:
+  # Example: Phi-3 Mini model (3.8B parameters, quantized to 4-bit)
+  # Uncomment and adjust path after downloading the model
+  # phi-3-mini:
+  #   path: "./models/phi-3-mini-4k-instruct-q4.gguf"
+  #   type: "llama.cpp"
+  #   parameters:
+  #     context_length: 4096
+  #     temperature: 0.7
+  #     top_p: 0.9
+  #     top_k: 40
+  #     repeat_penalty: 1.1
+  #     n_threads: 4        # Number of CPU threads (null = auto)
+  #     n_gpu_layers: 0     # Number of layers to offload to GPU (0 = CPU only)
+  #     max_tokens: 512     # Default max tokens for this model
+
+  # Example: TinyLlama model (1.1B parameters, very fast)
+  # tinyllama:
+  #   path: "./models/tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf"
+  #   type: "llama.cpp"
+  #   parameters:
+  #     context_length: 2048
+  #     temperature: 0.7
+  #     top_p: 0.9
+  #     top_k: 40
+  #     repeat_penalty: 1.1
+  #     n_threads: 4
+  #     n_gpu_layers: 0
+  #     max_tokens: 512
+
+  # Example: Qwen 2.5 model (0.5B-3B parameters)
+  # qwen2.5-3b:
+  #   path: "./models/qwen2.5-3b-instruct-q4_k_m.gguf"
+  #   type: "llama.cpp"
+  #   parameters:
+  #     context_length: 32768
+  #     temperature: 0.7
+  #     top_p: 0.9
+  #     top_k: 40
+  #     repeat_penalty: 1.1
+  #     n_threads: 4
+  #     n_gpu_layers: 0
+  #     max_tokens: 512
+
+# Inference settings
+inference:
+  max_tokens: 2048          # Maximum tokens to generate
+  stream: true              # Enable streaming responses
+  stop_sequences: []        # List of stop sequences
+
+# UI settings
+ui:
+  color_scheme: "monokai"         # Color scheme for syntax highlighting
+  show_model_name: true            # Show model name in responses
+  markdown_rendering: true         # Enable markdown rendering
+  syntax_highlighting: true        # Enable syntax highlighting for code
+
+# History settings
+history:
+  max_conversations: 100           # Maximum conversations to keep
+  auto_save: true                  # Automatically save conversations
+  save_path: "./data/history.db"  # Path to history database
+
+# Model Download Sources
+# Popular sources for downloading GGUF models:
+# - Hugging Face: https://huggingface.co/models?library=gguf
+# - TheBloke on HF: https://huggingface.co/TheBloke
+# - Recommended models:
+#   - Phi-3 Mini: https://huggingface.co/microsoft/Phi-3-mini-4k-instruct-gguf
+#   - TinyLlama: https://huggingface.co/TheBloke/TinyLlama-1.1B-Chat-v1.0-GGUF
+#   - Qwen2.5: https://huggingface.co/Qwen/Qwen2.5-3B-Instruct-GGUF

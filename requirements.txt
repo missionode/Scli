@@ -1,0 +1,9 @@
+# Core dependencies
+llama-cpp-python>=0.2.0
+typer[all]>=0.12.0
+rich>=13.7.0
+pyyaml>=6.0.1
+
+# Additional utilities
+prompt-toolkit>=3.0.43
+pygments>=2.17.0

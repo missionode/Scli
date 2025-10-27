@@ -1,0 +1,448 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-specification>
+    <metadata>
+        <name>Offline CLI Assistant (scli)</name>
+        <description>An offline command-line AI assistant powered by open-source small language models</description>
+        <version>1.0.0</version>
+        <type>CLI Application</type>
+    </metadata>
+
+    <core-requirements>
+        <requirement id="R1" priority="critical">
+            <title>Offline Functionality</title>
+            <description>Must work completely offline without any internet connection</description>
+            <details>All models, dependencies, and functionality must be available locally</details>
+        </requirement>
+
+        <requirement id="R2" priority="critical">
+            <title>Small Language Model Support</title>
+            <description>Use efficient open-source small language models</description>
+            <suggested-models>
+                <model>Phi-3 Mini (3.8B parameters)</model>
+                <model>Gemma 2B</model>
+                <model>TinyLlama (1.1B parameters)</model>
+                <model>Qwen2.5 (0.5B-3B)</model>
+                <model>SmolLM (135M-1.7B)</model>
+            </suggested-models>
+        </requirement>
+
+        <requirement id="R3" priority="critical">
+            <title>CLI Interface</title>
+            <description>Interactive command-line interface similar to Claude CLI</description>
+            <features>
+                <feature>Interactive chat mode</feature>
+                <feature>Single query mode</feature>
+                <feature>File input support</feature>
+                <feature>Colored output</feature>
+                <feature>History management</feature>
+            </features>
+        </requirement>
+
+        <requirement id="R4" priority="high">
+            <title>Pluggable Model Architecture</title>
+            <description>Easy to add, remove, or upgrade language models</description>
+            <capabilities>
+                <capability>Hot-swappable models</capability>
+                <capability>Multiple model support</capability>
+                <capability>Model registry/configuration</capability>
+                <capability>Automatic model detection</capability>
+            </capabilities>
+        </requirement>
+
+        <requirement id="R5" priority="high">
+            <title>Performance Efficiency</title>
+            <description>Optimized for resource-constrained environments</description>
+            <optimizations>
+                <optimization>Quantization support (4-bit, 8-bit)</optimization>
+                <optimization>CPU inference optimization</optimization>
+                <optimization>Optional GPU acceleration</optimization>
+                <optimization>Memory-efficient loading</optimization>
+                <optimization>Fast startup time</optimization>
+            </optimizations>
+        </requirement>
+    </core-requirements>
+
+    <architecture>
+        <pattern>Modular Plugin-Based Architecture</pattern>
+
+        <components>
+            <component name="CLI Interface Layer">
+                <responsibilities>
+                    <item>User input/output handling</item>
+                    <item>Command parsing</item>
+                    <item>Interactive session management</item>
+                    <item>Output formatting and styling</item>
+                </responsibilities>
+                <technologies>
+                    <tech>Python Click/Typer or Rust Clap</tech>
+                    <tech>Rich/Colorama for colored output</tech>
+                </technologies>
+            </component>
+
+            <component name="Model Manager">
+                <responsibilities>
+                    <item>Model loading and unloading</item>
+                    <item>Model registry management</item>
+                    <item>Model switching</item>
+                    <item>Resource management</item>
+                </responsibilities>
+            </component>
+
+            <component name="Inference Engine">
+                <responsibilities>
+                    <item>Model inference execution</item>
+                    <item>Context management</item>
+                    <item>Token generation</item>
+                    <item>Streaming responses</item>
+                </responsibilities>
+                <suggested-backends>
+                    <backend>llama.cpp (C++ with Python bindings)</backend>
+                    <backend>Ollama (if acceptable as dependency)</backend>
+                    <backend>Transformers with ONNX Runtime</backend>
+                    <backend>MLX (for Apple Silicon)</backend>
+                </suggested-backends>
+            </component>
+
+            <component name="Plugin System">
+                <responsibilities>
+                    <item>Model plugin discovery</item>
+                    <item>Plugin lifecycle management</item>
+                    <item>Configuration validation</item>
+                </responsibilities>
+            </component>
+
+            <component name="Configuration Manager">
+                <responsibilities>
+                    <item>User preferences</item>
+                    <item>Model configurations</item>
+                    <item>System settings</item>
+                </responsibilities>
+            </component>
+
+            <component name="Conversation Manager">
+                <responsibilities>
+                    <item>Chat history tracking</item>
+                    <item>Context window management</item>
+                    <item>Session persistence</item>
+                </responsibilities>
+            </component>
+        </components>
+    </architecture>
+
+    <technical-stack>
+        <language>
+            <option id="1" recommended="true">
+                <name>Python</name>
+                <pros>
+                    <pro>Rich AI/ML ecosystem</pro>
+                    <pro>Easy integration with models</pro>
+                    <pro>Rapid development</pro>
+                    <pro>Many CLI libraries</pro>
+                </pros>
+                <cons>
+                    <con>Slower than compiled languages</con>
+                </cons>
+            </option>
+
+            <option id="2">
+                <name>Rust</name>
+                <pros>
+                    <pro>High performance</pro>
+                    <pro>Memory safe</pro>
+                    <pro>Fast startup</pro>
+                    <pro>Single binary distribution</pro>
+                </pros>
+                <cons>
+                    <con>Steeper learning curve</con>
+                    <con>Fewer ML libraries</con>
+                </cons>
+            </option>
+        </language>
+
+        <inference-framework>
+            <option id="1" recommended="true">
+                <name>llama.cpp (llama-cpp-python)</name>
+                <reason>Highly optimized, supports quantization, CPU/GPU, cross-platform</reason>
+            </option>
+            <option id="2">
+                <name>Ollama</name>
+                <reason>Easy to use, good model management, but adds dependency</reason>
+            </option>
+            <option id="3">
+                <name>Transformers + ONNX Runtime</name>
+                <reason>Flexible, wide model support, optimized inference</reason>
+            </option>
+        </inference-framework>
+
+        <dependencies>
+            <cli-framework>typer (Python) or clap (Rust)</cli-framework>
+            <formatting>rich (Python) - beautiful terminal output</formatting>
+            <config>YAML/TOML for configuration files</config>
+            <storage>SQLite for conversation history</storage>
+        </dependencies>
+    </technical-stack>
+
+    <features>
+        <feature-group name="Core Chat Features">
+            <feature>Interactive chat mode</feature>
+            <feature>Single-shot query mode</feature>
+            <feature>Streaming responses</feature>
+            <feature>Conversation history</feature>
+            <feature>Multi-turn context</feature>
+        </feature-group>
+
+        <feature-group name="Model Management">
+            <feature>List available models</feature>
+            <feature>Switch between models</feature>
+            <feature>Download/install new models</feature>
+            <feature>Remove models</feature>
+            <feature>Show model info</feature>
+        </feature-group>
+
+        <feature-group name="Configuration">
+            <feature>Set default model</feature>
+            <feature>Configure temperature, top_p, etc.</feature>
+            <feature>Set max tokens</feature>
+            <feature>System prompt customization</feature>
+        </feature-group>
+
+        <feature-group name="Advanced Features">
+            <feature>File/document input</feature>
+            <feature>Code syntax highlighting</feature>
+            <feature>Export conversations</feature>
+            <feature>Session management</feature>
+            <feature>Prompt templates</feature>
+        </feature-group>
+    </features>
+
+    <cli-commands>
+        <command>
+            <name>scli chat</name>
+            <description>Start interactive chat session</description>
+            <options>
+                <option>--model MODEL_NAME</option>
+                <option>--temperature FLOAT</option>
+                <option>--system SYSTEM_PROMPT</option>
+            </options>
+        </command>
+
+        <command>
+            <name>scli query "question"</name>
+            <description>Single query mode</description>
+        </command>
+
+        <command>
+            <name>scli models list</name>
+            <description>List available models</description>
+        </command>
+
+        <command>
+            <name>scli models add MODEL_PATH</name>
+            <description>Add a new model</description>
+        </command>
+
+        <command>
+            <name>scli models remove MODEL_NAME</name>
+            <description>Remove a model</description>
+        </command>
+
+        <command>
+            <name>scli config set KEY VALUE</name>
+            <description>Set configuration</description>
+        </command>
+
+        <command>
+            <name>scli history</name>
+            <description>View conversation history</description>
+        </command>
+    </cli-commands>
+
+    <file-structure>
+        <structure>
+            scli/
+            ├── README.md
+            ├── requirements.txt (or Cargo.toml)
+            ├── setup.py (or build script)
+            ├── config.yaml
+            ├── scli/
+            │   ├── __init__.py
+            │   ├── cli.py              # CLI entry point
+            │   ├── core/
+            │   │   ├── __init__.py
+            │   │   ├── model_manager.py
+            │   │   ├── inference.py
+            │   │   ├── conversation.py
+            │   │   └── config.py
+            │   ├── plugins/
+            │   │   ├── __init__.py
+            │   │   ├── base.py         # Plugin interface
+            │   │   └── models/
+            │   │       ├── llama_cpp_plugin.py
+            │   │       └── onnx_plugin.py
+            │   ├── ui/
+            │   │   ├── __init__.py
+            │   │   ├── interactive.py
+            │   │   └── formatter.py
+            │   └── utils/
+            │       ├── __init__.py
+            │       └── helpers.py
+            ├── models/                 # Local model storage
+            │   └── .gitkeep
+            ├── data/
+            │   ├── history.db         # Conversation history
+            │   └── config.yaml        # User config
+            └── tests/
+                └── ...
+        </structure>
+    </file-structure>
+
+    <plugin-interface>
+        <description>Standardized interface for model plugins</description>
+        <interface-definition>
+            <method>
+                <name>load_model</name>
+                <parameters>model_path, config</parameters>
+                <returns>model_instance</returns>
+            </method>
+            <method>
+                <name>generate</name>
+                <parameters>prompt, max_tokens, temperature, etc.</parameters>
+                <returns>response_text or response_stream</returns>
+            </method>
+            <method>
+                <name>unload_model</name>
+                <parameters>None</parameters>
+                <returns>success_status</returns>
+            </method>
+            <method>
+                <name>get_model_info</name>
+                <parameters>None</parameters>
+                <returns>model_metadata</returns>
+            </method>
+        </interface-definition>
+    </plugin-interface>
+
+    <configuration-format>
+        <example>
+            <![CDATA[
+# config.yaml
+default_model: "phi-3-mini"
+models:
+  phi-3-mini:
+    path: "./models/phi-3-mini-4k-instruct-q4.gguf"
+    type: "llama.cpp"
+    parameters:
+      context_length: 4096
+      temperature: 0.7
+      top_p: 0.9
+      n_threads: 4
+
+  tinyllama:
+    path: "./models/tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf"
+    type: "llama.cpp"
+    parameters:
+      context_length: 2048
+      temperature: 0.7
+
+inference:
+  max_tokens: 2048
+  stream: true
+
+ui:
+  color_scheme: "monokai"
+  show_model_name: true
+  markdown_rendering: true
+
+history:
+  max_conversations: 100
+  auto_save: true
+            ]]>
+        </example>
+    </configuration-format>
+
+    <implementation-phases>
+        <phase number="1" name="Foundation">
+            <tasks>
+                <task>Set up project structure</task>
+                <task>Implement basic CLI interface</task>
+                <task>Create configuration manager</task>
+                <task>Integrate llama.cpp for inference</task>
+                <task>Implement single model support</task>
+            </tasks>
+        </phase>
+
+        <phase number="2" name="Core Features">
+            <tasks>
+                <task>Interactive chat mode</task>
+                <task>Conversation history</task>
+                <task>Context management</task>
+                <task>Streaming responses</task>
+                <task>Basic output formatting</task>
+            </tasks>
+        </phase>
+
+        <phase number="3" name="Plugin System">
+            <tasks>
+                <task>Design plugin interface</task>
+                <task>Implement model manager</task>
+                <task>Create plugin discovery system</task>
+                <task>Support multiple model backends</task>
+                <task>Model switching functionality</task>
+            </tasks>
+        </phase>
+
+        <phase number="4" name="Enhancement">
+            <tasks>
+                <task>Advanced CLI commands</task>
+                <task>File input support</task>
+                <task>Rich formatting and syntax highlighting</task>
+                <task>Export functionality</task>
+                <task>Performance optimizations</task>
+            </tasks>
+        </phase>
+    </implementation-phases>
+
+    <testing-strategy>
+        <unit-tests>Test individual components (model manager, config, etc.)</unit-tests>
+        <integration-tests>Test CLI commands and model inference</integration-tests>
+        <performance-tests>Measure inference speed and memory usage</performance-tests>
+        <user-acceptance>Test with different models and use cases</user-acceptance>
+    </testing-strategy>
+
+    <deployment>
+        <distribution-methods>
+            <method>pip install scli</method>
+            <method>Standalone binary (PyInstaller or Rust binary)</method>
+            <method>Source installation</method>
+        </distribution-methods>
+
+        <model-distribution>
+            <note>Models not included in package due to size</note>
+            <approach>Provide download scripts or links to model sources</approach>
+            <sources>
+                <source>Hugging Face model hub</source>
+                <source>Official model repositories</source>
+            </sources>
+        </model-distribution>
+    </deployment>
+
+    <future-extensibility>
+        <extension>Plugin marketplace or registry</extension>
+        <extension>Web UI companion</extension>
+        <extension>API server mode</extension>
+        <extension>Voice input/output</extension>
+        <extension>Multi-modal support (images, documents)</extension>
+        <extension>RAG (Retrieval Augmented Generation)</extension>
+        <extension>Tool/function calling</extension>
+        <extension>Custom fine-tuned model support</extension>
+    </future-extensibility>
+
+    <success-criteria>
+        <criterion>Works completely offline</criterion>
+        <criterion>Response time &lt; 5 seconds on average hardware</criterion>
+        <criterion>Memory usage &lt; 4GB for 3B parameter models</criterion>
+        <criterion>Easy to add new models (single config file change)</criterion>
+        <criterion>Intuitive CLI interface</criterion>
+        <criterion>Stable and error-free operation</criterion>
+    </success-criteria>
+</project-specification>
